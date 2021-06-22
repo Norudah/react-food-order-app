@@ -16,7 +16,6 @@ const cartReducer = (state, action) => {
 
     const duplicatas = state.items.filter((item) => item.name === name);
 
-    // Pas présent dans cart
     if (duplicatas.length === 0) {
       cartItems.push(action.item);
       const amount = state.amount + action.item.price * action.item.amount;
@@ -34,25 +33,23 @@ const cartReducer = (state, action) => {
   }
 
   if (action.type === "REMOVE") {
-    const existingCartItemIndex = state.items.findIndex(
-      (item) => item.id === action.id
-    );
-    const existingCartItem = state.items[existingCartItemIndex];
-    const updatedAmount = state.amount - existingCartItem.price;
+    const findRightIndex = (item) => item.id === action.id;
 
-    let updatedItems;
-    if (existingCartItem.amount === 1) {
-      updatedItems = state.items.filter((item) => item.id !== action.id);
+    const itemIndex = state.items.findIndex(findRightIndex);
+    const selectedItem = state.items[itemIndex];
+
+    let updatedItems = [];
+    const updatedAmount = state.amount - selectedItem.price;
+
+    if (selectedItem.amount === 1) {
+      updatedItems = state.items.filter((item) => item.id !== selectedItem.id);
     } else {
-      const updatedItem = { existingCartItem, amount: existingCartItem - 1 };
+      const updatedItem = { ...selectedItem, amount: selectedItem.amount - 1 };
       updatedItems = [...state.items];
-      updatedItems[existingCartItemIndex] = updatedItem;
+      updatedItems[itemIndex] = updatedItem;
     }
 
-    return {
-      items: updatedItems,
-      amount: updatedAmount,
-    };
+    return { items: updatedItems, amount: updatedAmount };
   }
 
   return defaultCart;
