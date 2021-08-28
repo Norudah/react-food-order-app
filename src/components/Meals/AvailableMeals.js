@@ -6,9 +6,11 @@ import MealItem from "./MealItem/MealItem";
 
 const AvailableMeals = () => {
   const [availableMeals, setAvailableMeals] = useState([]);
+  const [isLoading, setIsLoadings] = useState(true);
 
   useEffect(() => {
     const getMeals = async () => {
+      setIsLoadings(true);
       const url = "https://react-food-order-app-5bedb-default-rtdb.europe-west1.firebasedatabase.app/meals.json";
       const response = await fetch(url);
       const meals = await response.json();
@@ -25,11 +27,18 @@ const AvailableMeals = () => {
       }
 
       setAvailableMeals(mealsArray);
+      setIsLoadings(false);
     };
     getMeals();
   }, []);
 
-  const meals = availableMeals.map((meal) => <MealItem key={meal.id} meal={meal} />);
+  let meals;
+
+  if (isLoading) {
+    meals = <div>Chargement...</div>;
+  } else {
+    meals = availableMeals.map((meal) => <MealItem key={meal.id} meal={meal} />);
+  }
 
   return (
     <section className={classes.meals}>
