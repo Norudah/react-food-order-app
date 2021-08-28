@@ -13,8 +13,15 @@ const Cart = (props) => {
 
   const toggleCheckout = () => setisCheckingOut((prevState) => !prevState);
 
-  const submitOrderHandler = () => {
-    console.log("submit order to the backend ");
+  const submitOrderHandler = (userData) => {
+    const url = "https://react-food-order-app-5bedb-default-rtdb.europe-west1.firebasedatabase.app/orders.json";
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        userData,
+        items: cartCtx.items,
+      }),
+    });
   };
 
   const addItemToCardHandler = (item) => cartCtx.addItem(item);

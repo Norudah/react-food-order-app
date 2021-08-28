@@ -37,7 +37,12 @@ export default function Checkout(props) {
 
     if (!formIsValid) return;
 
-    props.onConfirm();
+    props.onConfirm({
+      enteredFullName,
+      enteredAddress,
+      enteredPostalCode,
+      enteredCity,
+    });
   };
 
   const fullNameRef = useRef();
