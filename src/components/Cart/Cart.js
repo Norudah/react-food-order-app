@@ -13,6 +13,10 @@ const Cart = (props) => {
 
   const toggleCheckout = () => setisCheckingOut((prevState) => !prevState);
 
+  const submitOrderHandler = () => {
+    console.log("submit order to the backend ");
+  };
+
   const addItemToCardHandler = (item) => cartCtx.addItem(item);
   const removeItemToCardHandler = (id) => cartCtx.removeItem(id);
 
@@ -39,7 +43,7 @@ const Cart = (props) => {
         <div>Prix total du panier</div>
         <div>{price}</div>
       </div>
-      {isCheckingOut && <Checkout abortCheckout={toggleCheckout} />}
+      {isCheckingOut && <Checkout abortCheckout={toggleCheckout} onConfirm={submitOrderHandler} />}
       <div className={classes.actions}>
         <button className={classes["button--alt"]} onClick={props.onHideCart}>
           Fermer

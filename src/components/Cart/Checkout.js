@@ -33,9 +33,11 @@ export default function Checkout(props) {
       city: cityIsValid,
     });
 
-    if (!formValidity) return;
+    const formIsValid = fullNameIsValid && addressIsValid && postalCodeIsValid && cityIsValid;
 
-    console.log("sentData");
+    if (!formIsValid) return;
+
+    props.onConfirm();
   };
 
   const fullNameRef = useRef();
@@ -43,24 +45,29 @@ export default function Checkout(props) {
   const postalCodeRef = useRef();
   const cityRef = useRef();
 
+  const fullNameClasses = `${classes.control} ${formValidity.fullName ? "" : classes.invalid} `;
+  const addressClasses = `${classes.control} ${formValidity.address ? "" : classes.invalid} `;
+  const postalCodeClasses = `${classes.control} ${formValidity.postalCode ? "" : classes.invalid} `;
+  const cityClasses = `${classes.control} ${formValidity.city ? "" : classes.invalid} `;
+
   return (
     <form action="submit" className={classes.form}>
-      <div className={classes["control"]}>
+      <div className={fullNameClasses}>
         <label htmlFor="fullName">Nom entier</label>
         <input type="text" id="fullName" ref={fullNameRef} />
         {!formValidity.fullName && <p>Votre nom doit être spécifié</p>}
       </div>
-      <div className={classes["control"]}>
+      <div className={addressClasses}>
         <label htmlFor="address">Adresse</label>
         <input type="text" id="address" ref={addressRef} />
         {!formValidity.address && <p>Votre adresse doit être spécifiée</p>}
       </div>
-      <div className={classes["control"]}>
+      <div className={postalCodeClasses}>
         <label htmlFor="postalCode">Code postal</label>
         <input type="number" id="postalCode" ref={postalCodeRef} />
         {!formValidity.postalCode && <p>Votre code postal doit faire 5 caractères</p>}
       </div>
-      <div className={classes["control"]}>
+      <div className={cityClasses}>
         <label htmlFor="city">Ville</label>
         <input type="text" id="city" ref={cityRef} />
         {!formValidity.city && <p>Votre adresse doit être spécifiée</p>}
