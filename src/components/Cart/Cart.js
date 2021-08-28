@@ -10,18 +10,20 @@ import Checkout from "./Checkout";
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
   const [isCheckingOut, setisCheckingOut] = useState(false);
+  const [hasSubmit, setHasSubmit] = useState(false);
 
   const toggleCheckout = () => setisCheckingOut((prevState) => !prevState);
 
-  const submitOrderHandler = (userData) => {
+  const submitOrderHandler = async (userData) => {
     const url = "https://react-food-order-app-5bedb-default-rtdb.europe-west1.firebasedatabase.app/orders.json";
-    fetch(url, {
+    await fetch(url, {
       method: "POST",
       body: JSON.stringify({
         userData,
         items: cartCtx.items,
       }),
     });
+    setHasSubmit(true);
   };
 
   const addItemToCardHandler = (item) => cartCtx.addItem(item);
@@ -43,8 +45,8 @@ const Cart = (props) => {
     );
   });
 
-  return (
-    <Modal>
+  const cartModalContent = (
+    <>
       <ul className={classes["cart-items"]}>{cartItems}</ul>
       <div className={classes.total}>
         <div>Prix total du panier</div>
@@ -61,8 +63,27 @@ const Cart = (props) => {
           </button>
         )}
       </div>
-    </Modal>
+    </>
   );
+
+  const submitedFormModalContent = (
+    <>
+      <p>La commande à bien été passée : Bon appétit !</p>
+      <div className={classes.actions}>
+        <button
+          className={classes.button}
+          onClick={() => {
+            props.onHideCart();
+            cartCtx.clearCart();
+          }}
+        >
+          Fermer
+        </button>
+      </div>
+    </>
+  );
+
+  return <Modal>{hasSubmit ? submitedFormModalContent : cartModalContent}</Modal>;
 };
 
 export default Cart;
