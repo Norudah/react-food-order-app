@@ -1,13 +1,8 @@
 # react-food-order-app
 
-A food order application made in react.js to learn more advanced concepts : 
-- useEffects
-- useReducer
-- useRef
-- ForwardRef
-- Context : useContext, default context, context & dynamix context managed with useReducer
+A food order application made in react.js and context API managed by a dummy realtime database in firebase
 
-![title](./demo-img.png)
+![](./demo/demo.gif)
 
 ## To run :
 
