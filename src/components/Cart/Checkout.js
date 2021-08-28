@@ -2,44 +2,40 @@ import React, { useRef, useState } from "react";
 import classes from "./Checkout.module.css";
 
 export default function Checkout(props) {
-  const [inputError, setInputError] = useState({
-    fullName: "",
-    address: "",
-    postalCode: "",
-    city: "",
+  const [formValidity, setFormValidity] = useState({
+    fullName: true,
+    address: true,
+    postalCode: true,
+    city: true,
   });
+
+  const isEmpty = (value) => value.trim() === "";
+
+  const isValidPostalCode = (value) => value.trim().length === 5 && !isNaN(parseInt(postalCodeRef.current.value));
 
   const validateCart = (event) => {
     event.preventDefault();
-    console.log("validate cart pressed");
-    formValidator();
-  };
 
-  const formValidator = () => {
-    if (fullNameRef.current.value.length === 0) {
-      setInputError((prevState) => {
-        return { ...prevState, fullName: "Votre nom doit obligatoirement être spécifié" };
-      });
-    }
+    const enteredFullName = fullNameRef.current.value;
+    const enteredAddress = addressRef.current.value;
+    const enteredPostalCode = postalCodeRef.current.value;
+    const enteredCity = cityRef.current.value;
 
-    if (addressRef.current.value.length === 0) {
-      setInputError((prevState) => {
-        return { ...prevState, address: "Votre adresse doit obligatoirement être spécifié" };
-      });
-    }
+    const fullNameIsValid = !isEmpty(enteredFullName);
+    const addressIsValid = !isEmpty(enteredAddress);
+    const postalCodeIsValid = isValidPostalCode(enteredPostalCode);
+    const cityIsValid = !isEmpty(enteredCity);
 
-    // TODO : typeOf number à voir ce que donne un mot transformé en number pour checker après
-    if (postalCodeRef.current.value.length !== 5) {
-      setInputError((prevState) => {
-        return { ...prevState, postalCode: "Votre ville doit obligatoirement être spécifié" };
-      });
-    }
+    setFormValidity({
+      fullName: fullNameIsValid,
+      address: addressIsValid,
+      postalCode: postalCodeIsValid,
+      city: cityIsValid,
+    });
 
-    if (cityRef.current.value.length === 0) {
-      setInputError((prevState) => {
-        return { ...prevState, city: "Votre adresse doit obligatoirement être spécifié" };
-      });
-    }
+    if (!formValidity) return;
+
+    console.log("sentData");
   };
 
   const fullNameRef = useRef();
@@ -48,29 +44,29 @@ export default function Checkout(props) {
   const cityRef = useRef();
 
   return (
-    <form action="submit">
+    <form action="submit" className={classes.form}>
       <div className={classes["control"]}>
         <label htmlFor="fullName">Nom entier</label>
         <input type="text" id="fullName" ref={fullNameRef} />
-        {inputError.fullName && <p>{inputError.fullName}</p>}
+        {!formValidity.fullName && <p>Votre nom doit être spécifié</p>}
       </div>
       <div className={classes["control"]}>
         <label htmlFor="address">Adresse</label>
         <input type="text" id="address" ref={addressRef} />
-        {inputError.address && <p>{inputError.address}</p>}
+        {!formValidity.address && <p>Votre adresse doit être spécifiée</p>}
       </div>
       <div className={classes["control"]}>
         <label htmlFor="postalCode">Code postal</label>
         <input type="number" id="postalCode" ref={postalCodeRef} />
-        {inputError.postalCode && <p>{inputError.postalCode}</p>}
+        {!formValidity.postalCode && <p>Votre code postal doit faire 5 caractères</p>}
       </div>
       <div className={classes["control"]}>
         <label htmlFor="city">Ville</label>
         <input type="text" id="city" ref={cityRef} />
-        {inputError.city && <p>{inputError.city}</p>}
+        {!formValidity.city && <p>Votre adresse doit être spécifiée</p>}
       </div>
 
-      <div>
+      <div className={classes.actions}>
         <button type="button" onClick={props.abortCheckout}>
           Cancel
         </button>
