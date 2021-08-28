@@ -1,12 +1,17 @@
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal/Modal";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
+
 import CartContext from "../../store/cart-context";
 import CartItem from "./CartItem";
+import Checkout from "./Checkout";
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
+  const [isCheckingOut, setisCheckingOut] = useState(false);
+
+  const toggleCheckout = () => setisCheckingOut((prevState) => !prevState);
 
   const addItemToCardHandler = (item) => cartCtx.addItem(item);
   const removeItemToCardHandler = (id) => cartCtx.removeItem(id);
@@ -34,11 +39,16 @@ const Cart = (props) => {
         <div>Prix total du panier</div>
         <div>{price}</div>
       </div>
+      {isCheckingOut && <Checkout abortCheckout={toggleCheckout} />}
       <div className={classes.actions}>
         <button className={classes["button--alt"]} onClick={props.onHideCart}>
           Fermer
         </button>
-        {hasItems && <button className={classes.button}>Commander</button>}
+        {hasItems && !isCheckingOut && (
+          <button className={classes.button} onClick={toggleCheckout}>
+            Commander
+          </button>
+        )}
       </div>
     </Modal>
   );
