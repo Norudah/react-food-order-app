@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meal-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.meal-name {
+  font-weight: bold;
+}
+
+.meal-price {
+  font-weight: 700;
+  color: rgb(226, 135, 15);
+}
+
+.menu-container {
+  display: flex;
+}

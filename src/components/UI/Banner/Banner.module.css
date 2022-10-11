@@ -1,0 +1,10 @@
+.container {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translateX(-50%) translateY(-10%);
+  background: rgb(70, 47, 12);
+  width: 30vw;
+  padding: 1.2rem 2.2rem;
+  color: white;
+}

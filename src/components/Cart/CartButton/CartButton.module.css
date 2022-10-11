@@ -1,0 +1,20 @@
+.container {
+  background: rgb(97, 65, 18);
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 5rem;
+}
+
+.number-container {
+  background: rgb(209, 129, 54);
+  width: 2.6rem;
+  height: 2rem;
+  padding: 1rem;
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
+}
