@@ -1,4 +1,4 @@
-import { Meal } from "../ts/interfaces";
+import { Meal } from "../models/interfaces";
 
 export const DUMMY_DATA: Meal[] = [
   {

@@ -1,4 +1,4 @@
-import { Meal } from "../../../ts/interfaces";
+import { Meal } from "../../../models/interfaces";
 import Card from "../../UI/Card";
 import MealItem from "../MealItem";
 import styles from "./MealCard.module.css";

@@ -1,30 +1,51 @@
-export enum CartActionType {
-  ADD_ITEM = "ADD_CART",
+import { Cart, CartItem, Meal } from "../models/interfaces";
+
+export enum Type {
+  ADD_ITEM = "ADD_ITEM",
   REMOVE_ITEM = "REMOVE_ITEM",
   CLEAN_CART = "CLEAN_CART",
 }
 
-type cartReducerArgsType = {
-  state: any;
-  action: {
-    type: CartActionType;
-    payload: any;
-  };
+type AddItemActionType = {
+  type: Type.ADD_ITEM;
+  payload: CartItem;
 };
 
-export const cartReducer = ({ state, action }: cartReducerArgsType) => {
-  const { type, payload } = action;
+type RemoveItemActionType = {
+  type: Type.REMOVE_ITEM;
+  payload: Meal;
+};
 
-  console.log("lancement du reducer avec le type" + type);
+type CleanCartActionType = {
+  type: Type.CLEAN_CART;
+};
 
-  if (type === CartActionType.ADD_ITEM) {
-    return state;
-  }
+export type Action = AddItemActionType | RemoveItemActionType | CleanCartActionType;
 
-  if (type === CartActionType.REMOVE_ITEM) {
-    return state;
-  }
+// export type Action =
+//   | { type: Type.ADD_ITEM; payload: CartItem }
+//   | { type: Type.REMOVE_ITEM; payload: Meal }
+//   | { type: Type.CLEAN_CART };
 
-  if (type === CartActionType.CLEAN_CART) {
+export const cartReducer = (state: Cart, action: Action): Cart => {
+  const { type } = action;
+
+  switch (type) {
+    case Type.ADD_ITEM:
+      const updatedCart: Cart = {
+        items: [...state.items, action.payload],
+        amount: state.amount + 123,
+      };
+
+      return updatedCart;
+
+    case Type.REMOVE_ITEM:
+      return state;
+
+    case Type.CLEAN_CART:
+      return state;
+
+    default:
+      return state;
   }
 };
