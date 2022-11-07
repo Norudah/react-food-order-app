@@ -7,15 +7,16 @@ const defaultState: Cart = {
   items: [],
 };
 
+type contextType = {
+  state: Cart;
+  dispatch: React.Dispatch<Action>;
+};
+
 export const CartContext = createContext<contextType>({
   state: defaultState,
   dispatch: () => undefined,
 });
 
-type contextType = {
-  state: Cart;
-  dispatch: React.Dispatch<Action>;
-};
 type PropsType = {
   children: React.ReactNode;
 };

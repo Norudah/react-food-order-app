@@ -6,26 +6,10 @@ export enum Type {
   CLEAN_CART = "CLEAN_CART",
 }
 
-type AddItemActionType = {
-  type: Type.ADD_ITEM;
-  payload: CartItem;
-};
-
-type RemoveItemActionType = {
-  type: Type.REMOVE_ITEM;
-  payload: Meal;
-};
-
-type CleanCartActionType = {
-  type: Type.CLEAN_CART;
-};
-
-export type Action = AddItemActionType | RemoveItemActionType | CleanCartActionType;
-
-// export type Action =
-//   | { type: Type.ADD_ITEM; payload: CartItem }
-//   | { type: Type.REMOVE_ITEM; payload: Meal }
-//   | { type: Type.CLEAN_CART };
+export type Action =
+  | { type: Type.ADD_ITEM; payload: CartItem }
+  | { type: Type.REMOVE_ITEM; payload: Meal }
+  | { type: Type.CLEAN_CART };
 
 export const cartReducer = (state: Cart, action: Action): Cart => {
   const { type } = action;

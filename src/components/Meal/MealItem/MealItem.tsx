@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../../../context/cart-context";
 import { CartItem } from "../../../models/interfaces";
 import { Type } from "../../../reducers/cart-reducer";
@@ -8,10 +8,13 @@ type PropsType = {
   name: string;
   description: string;
   price: number;
+  key: number | string;
 };
 
 const MealItem = ({ name, description, price }: PropsType) => {
   const cartContext = useContext(CartContext);
+  const [quantity, setQuantity] = useState(1);
+
   const fakeCartItem: CartItem = {
     item: {
       id: 99,
@@ -31,8 +34,7 @@ const MealItem = ({ name, description, price }: PropsType) => {
       </div>
       <div className={styles["menu-container"]}>
         <div className={styles["input-container"]}>
-          <div>Quantité : 1</div>
-          <input type="number" />
+          <input type="number" value={quantity} />
         </div>
         <button onClick={() => cartContext.dispatch({ type: Type.ADD_ITEM, payload: fakeCartItem })}>Ajouter</button>
       </div>
